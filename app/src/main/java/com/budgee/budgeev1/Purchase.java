@@ -9,6 +9,8 @@ import java.util.Date;
 public class Purchase {
     private int purchaseID;
     private Date purchaseDate;
+    private int itemID;
+    private int budgetID;
 
     public int getPurchaseID(){
         return purchaseID;
@@ -18,11 +20,27 @@ public class Purchase {
         return purchaseDate;
     }
 
+    public int getItemID() {
+        return itemID;
+    }
+
+    public int getBudgetID() {
+        return budgetID;
+    }
+
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
 
     public void setPurchaseID(int purchaseID) {
         this.purchaseID = purchaseID;
+    }
+
+    public void setItemID(int itemID) {
+        this.itemID = itemID;
+    }
+
+    public void setBudgetID(int budgetID) {
+        this.budgetID = budgetID;
     }
 }

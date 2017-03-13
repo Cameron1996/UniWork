@@ -21,6 +21,8 @@ import android.util.Log;
     public static final String tablePurchases = "Purchases";
     public static final String columnPurchaseID = "_id";
     public static final String columnPurchaseDate = "PurchaseDate";
+    public static final String columnItemIDFK = "Item_id";
+    public static final String columnBudgetIDFK = "Budget_id";
 
     //BudgetTable Name/Column Names
     public static final String tableBudgets = "Budgets";
@@ -47,7 +49,9 @@ import android.util.Log;
     private static final String purchaseTableCreate = "create table "
             + tablePurchases + "( " + columnPurchaseID
             + " integer primary key autoincrement, " + columnPurchaseDate
-            + " integer not null);";
+            + " integer not null, " + columnItemIDFK + "integer not null, " + columnBudgetIDFK
+            + "integer not null, " + "foreign key(" + columnItemIDFK + ") references Items(" + columnItemID
+            + "), foreign key(" + columnItemIDFK + ") references Budgets(" + columnBudgetID + "));";
 
     //BudgetTable creation sql statement
     private static final String budgetTableCreate = "create table "

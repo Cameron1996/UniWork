@@ -32,9 +32,11 @@ public class PurchaseDataSource {
         dbHelper.close();
     }
 
-    public Purchase createPurchase(Date purchaseDate){
+    public Purchase createPurchase(Date purchaseDate, int itemID, int budgetID){
         ContentValues values = new ContentValues();
         values.put(DBHelper.columnPurchaseDate, purchaseDate.getTime());
+        values.put(DBHelper.columnItemIDFK, itemID);
+        values.put(DBHelper.columnBudgetIDFK, budgetID);
         long insertId = database.insert(DBHelper.tablePurchases, null, values);
         Cursor cursor = database.query(DBHelper.tablePurchases,
                 allColumns, DBHelper.columnPurchaseID + " = " + insertId, null,

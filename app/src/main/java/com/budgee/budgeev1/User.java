@@ -13,11 +13,12 @@ import javax.activation.*;
 public class User
 {
     private String name = "DEFAULT_NAME";
-    private String password = null;
+    private String password = null; // will need to be encrypted when stored in database
+    private String securityAnswer; // will need to be encrypted when stored in database
     private String email = null;
     private boolean firstTimeSetup = true;
     Budget usersBudget = new Budget();
-
+    
     /*
     //Email variables
     private String from = null;
@@ -84,7 +85,13 @@ public class User
         return password;
     }
 
-
+    private Boolean SecurityCheck(String answer){
+		if (answer.equalsIgnoreCase(decrypt(securityAnswer)))
+		{
+		return true;
+		}
+		return false;
+	}
 
     private void createBudget(double budgetLimit)
     {

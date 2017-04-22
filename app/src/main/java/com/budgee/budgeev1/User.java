@@ -4,6 +4,7 @@ import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
+import java.util.Random;
 
 /**
  * Creator : Cameron Smith.
@@ -13,12 +14,20 @@ import javax.activation.*;
 public class User
 {
     private String name = "DEFAULT_NAME";
+    private String securityQuestion = "What was the name of your first pet?";
     private String password = null; // will need to be encrypted when stored in database
     private String securityAnswer; // will need to be encrypted when stored in database
     private String email = null;
-    private boolean firstTimeSetup = true;
     Budget usersBudget = new Budget();
     
+    public BudgeeUser(String name, Budget usersBudget, String password, String email, String securityAnswer) {
+		super();
+		this.name = name;
+		this.usersBudget = usersBudget;
+		this.password = password;
+	    	this.email = email;
+	    	this.securityAnswer = securityAnswer;
+    }
     /*
     //Email variables
     private String from = null;

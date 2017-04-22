@@ -20,6 +20,8 @@ public class User
     private String email = null;
     Budget usersBudget = new Budget();
     
+	
+	// To be used for the first time setup, I am not sure how yous are taking the input..
     public BudgeeUser(String name, Budget usersBudget, String password, String email, String securityAnswer) {
 		super();
 		this.name = name;
@@ -28,18 +30,7 @@ public class User
 	    	this.email = email;
 	    	this.securityAnswer = securityAnswer;
     }
-    /*
-    //Email variables
-    private String from = null;
-    private String host = "localhost";
-    Properties properties = System.getProperties();
-    properties.setProperty("mail.smtp.host", host);
-    Session session = Session.getDefaultInstance(properties);
-    */
-
-
-
-
+ 
     private void printUsersInfo()
     {
         System.out.println("Name is " + name + ". Email is " + email + ".");
@@ -57,15 +48,12 @@ public class User
 
     private void resetPassword()
     {
-        //Will need to be done in its own class
-        //Create a new randomly generated password
-        String tempPassword = generatePassword();
-
-        //send password to email address
-        sendEmail(getEmail(),tempPassword);
-
-        //set the password to the temp password
-        setPassword(tempPassword);
+	 if (securityCheck()){
+	 String tempPassword = generatePassword();
+ 	 System.out.println("temporary password is " + tempPassword + ". Please reset your password as soon as you login");
+	 setPassword(tempPassword);
+	 }
+        //Will need to output generated password to display for the user to see
     }
 
     private String encrypt(String password)

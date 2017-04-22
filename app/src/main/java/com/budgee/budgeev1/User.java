@@ -98,11 +98,26 @@ public class User
         usersBudget = new Budget(budgetLimit);
     }
 
-    private String generatePassword()
-    {
-        //test
-        return "helloworld!";
-    }
+    public static String genaratePassword(){
+		char[] letters = {'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'};
+		int i,j,k,l;
+		
+		Random random = new Random();
+
+		i = random.nextInt(26);
+		j = random.nextInt(26);
+		k = random.nextInt(26);
+		l = random.nextInt(26);
+		
+		char charOne = letters[i];
+		char charTwo = letters[j];
+		char charThree = letters[k];
+		char charFour = letters[l];
+		
+		String newPassword = ""+charOne+charTwo+charThree+charFour;
+		return newPassword;
+		
+	}
 
 
     //Constructor/s

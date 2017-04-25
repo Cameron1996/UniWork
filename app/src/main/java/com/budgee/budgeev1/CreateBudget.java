@@ -77,7 +77,7 @@ public class CreateBudget extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_budget);
+        setContentView(R.layout.activity_budget_create);
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         final CategoryAdapter catAdapt = new CategoryAdapter(getApplicationContext(), categories);

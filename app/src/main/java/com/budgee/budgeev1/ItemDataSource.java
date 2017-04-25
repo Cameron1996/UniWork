@@ -17,7 +17,7 @@ public class ItemDataSource {
     private SQLiteDatabase database;
     private DBHelper dbHelper;
     private String[] allColumns = { DBHelper.columnItemID,
-            DBHelper.columnItemName, DBHelper.columnItemPrice};
+            DBHelper.columnItemName, DBHelper.columnItemPrice, DBHelper.columnCategoryIDFK};
 
     public ItemDataSource(Context context) {
         dbHelper = new DBHelper(context);
@@ -31,10 +31,11 @@ public class ItemDataSource {
         dbHelper.close();
     }
 
-    public Item createItem(String itemName, int itemPrice){
+    public Item createItem(String itemName, int itemPrice, int categoryID){
         ContentValues values = new ContentValues();
         values.put(DBHelper.columnItemName, itemName);
         values.put(DBHelper.columnItemPrice, itemPrice);
+        values.put(DBHelper.columnCategoryIDFK, categoryID);
         long insertId = database.insert(DBHelper.tableItems, null, values);
         Cursor cursor = database.query(DBHelper.tableItems,
                 allColumns, DBHelper.columnItemID + " = " + insertId, null,
@@ -50,6 +51,19 @@ public class ItemDataSource {
         System.out.println("Item deleted with id: " + id);
         database.delete(DBHelper.tableItems,DBHelper.columnItemID
                 + " = " + id, null);
+    }
+
+    public Item getItem(int itemID) {
+
+        String whereClause = "columnItemID EQUALS ?";
+        String[] whereArgs = new String[] {Integer.toString(itemID)};
+
+        Cursor cursor = database.query(DBHelper.tableItems,
+                allColumns, whereClause, whereArgs, null, null, null);
+
+        cursor.moveToFirst();
+
+        return cursorToItem(cursor);
     }
 
     public List<Item> getAllItems() {

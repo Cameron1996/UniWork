@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.budgee.budgeev1.CreateBudget"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:orientation="horizontal"
+    android:layout_gravity="bottom">
+
+    <TextView
+        android:id="@+id/tvAddCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Add Category"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAddCategory"
+        android:layout_toLeftOf="@id/priceInputPoundSymbol"
+        android:layout_alignBottom="@+id/priceInputPounds"
+        />
+
+    <TextView
+        android:id="@+id/priceInputPoundSymbol"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="£"
+        android:textSize="14dp"
+        android:layout_below="@id/tvAddCategory"
+        android:layout_alignBottom="@+id/priceInputPounds"
+        android:gravity="center"
+        android:layout_toLeftOf="@id/priceInputPounds"
+        android:layout_margin="4dp"
+        />
+
+    <EditText
+        android:id="@+id/priceInputPounds"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAddCategory"
+        android:layout_toLeftOf="@id/priceInputDecPoint"
+        android:hint="0"
+        android:textSize="14dp"
+        android:inputType="number"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/priceInputDecPoint"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="."
+        android:textSize="14dp"
+        android:layout_below="@id/tvAddCategory"
+        android:layout_alignBottom="@+id/priceInputPounds"
+        android:gravity="center"
+        android:layout_toLeftOf="@id/priceInputPence"
+        />
+
+    <EditText
+        android:id="@+id/priceInputPence"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAddCategory"
+        android:layout_alignParentRight="true"
+        android:hint="00"
+        android:textSize="14dp"
+        android:inputType="number"
+        android:gravity="center"
+        />
+
+    <Button
+        android:id="@+id/confirmAddCategoryButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/priceInputPounds"
+        android:text="Confirm Category"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvAddNewCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/confirmAddCategoryButton"
+        android:text="Create New Category"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        />
+
+    <EditText
+        android:id="@+id/categoryNameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAddNewCategory"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/priceInputPoundSymbol2"
+        android:hint="Set name for new category"
+        android:textSize="14dp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/priceInputPoundSymbol2"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="£"
+        android:textSize="14dp"
+        android:layout_below="@id/tvAddNewCategory"
+        android:layout_alignBottom="@+id/priceInputPounds2"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_toLeftOf="@id/priceInputPounds2"
+        android:layout_margin="4dp"
+        />
+
+    <EditText
+        android:id="@+id/priceInputPounds2"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAddNewCategory"
+        android:layout_toLeftOf="@id/priceInputDecPoint2"
+        android:hint="0"
+        android:textSize="14dp"
+        android:inputType="number"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/priceInputDecPoint2"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="."
+        android:textSize="14dp"
+        android:layout_below="@id/tvAddNewCategory"
+        android:layout_alignBottom="@+id/priceInputPounds2"
+        android:gravity="center"
+        android:layout_toLeftOf="@id/priceInputPence2"
+        />
+
+    <EditText
+        android:id="@+id/priceInputPence2"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvAddNewCategory"
+        android:layout_alignParentRight="true"
+        android:hint="00"
+        android:textSize="14dp"
+        android:inputType="number"
+        android:gravity="center"
+        />
+
+    <Button
+        android:id="@+id/confirmNewCategoryButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/priceInputPoundSymbol2"
+        android:text="Confirm New Category"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvAllCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="All Categories for Current Budget"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_below="@id/confirmNewCategoryButton"
+        android:paddingBottom="8dp"
+        />
+
+    <ScrollView
+        android:id="@+id/scrollAllCategoriesCurrentBudget"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:scrollbars="vertical"
+        android:fillViewport="true"
+        android:layout_below="@id/tvAllCategories"
+        >
+
+        <TextView
+            android:id="@+id/tvAllCategoriesCurrentBudget"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
+    </ScrollView>
+
+    <EditText
+        android:id="@+id/startDate"
+        android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/scrollAllCategoriesCurrentBudget"
+        android:layout_toLeftOf="@id/finDate"
+        android:hint="Start Date"
+        android:textSize="14dp"
+        />
+
+    <EditText
+        android:id="@+id/finDate"
+            android:layout_width="175dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@id/scrollAllCategoriesCurrentBudget"
+        android:layout_alignParentRight="true"
+        android:hint="Finish Date"
+        android:textSize="14dp"
+        />
+
+    <Button
+        android:id="@+id/confirmBudgetButton"
+        android:layout_width="175dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/startDate"
+        android:text="Confirm Budget"
+        android:gravity="center"
+        />
+
+    <Button
+        android:id="@+id/clearBudgetButton"
+        android:layout_width="175dp"
+        android:layout_height="40dp"
+        android:layout_below="@id/startDate"
+        android:layout_alignParentRight="true"
+        android:text="Clear Budget"
+        android:gravity="center"
+        />
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/confirmBudgetButton"
+        android:text="Exit Budget Menu"
+        android:gravity="center"
+        />
+
+</RelativeLayout>

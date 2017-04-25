@@ -34,8 +34,8 @@ public class BudgetDataSource {
 
     public Budget createBudget(Date budgetStartDate, Date budgetFinDate){
         ContentValues values = new ContentValues();
-        values.put(DBHelper.columnPurchaseDate, budgetStartDate.getTime());
-        values.put(DBHelper.columnPurchaseDate, budgetFinDate.getTime());
+        values.put(DBHelper.columnBudgetStartDate, budgetStartDate.getTime());
+        values.put(DBHelper.columnBudgetFinDate, budgetFinDate.getTime());
         long insertId = database.insert(DBHelper.tableBudgets, null, values);
         Cursor cursor = database.query(DBHelper.tableBudgets,
                 allColumns, DBHelper.columnBudgetID + " = " + insertId, null,

@@ -51,6 +51,19 @@ public class CategoryDataSource {
                 + " = " + id, null);
     }
 
+    public Category getCategory(int categoryID) {
+
+        String whereClause = "columnCategoryID EQUALS ?";
+        String[] whereArgs = new String[] {Integer.toString(categoryID)};
+
+        Cursor cursor = database.query(DBHelper.tableCategories,
+                allColumns, whereClause, whereArgs, null, null, null);
+
+        cursor.moveToFirst();
+
+        return cursorToCategory(cursor);
+    }
+
     public List<Category> getAllCategories() {
         List<Category> categoryList = new ArrayList<Category>();
 

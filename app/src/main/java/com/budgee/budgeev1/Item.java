@@ -8,6 +8,7 @@ public class Item {
     private int itemID;
     private String itemName;
     private int itemPrice;
+    private int categoryID;
 
     public int getItemID() {
         return itemID;
@@ -21,6 +22,10 @@ public class Item {
         return itemPrice;
     }
 
+    public int getCategoryID() {
+        return categoryID;
+    }
+
     public void setItemID(int itemID){
         this.itemID = itemID;
     }
@@ -31,5 +36,9 @@ public class Item {
 
     public void setItemPrice(int itemPrice) {
         this.itemPrice = itemPrice;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 }

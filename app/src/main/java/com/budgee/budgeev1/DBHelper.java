@@ -16,6 +16,7 @@ import android.util.Log;
     public static final String columnItemID = "_id";
     public static final String columnItemName = "ItemName";
     public static final String columnItemPrice = "ItemPrice";
+    public static final String columnCategoryIDFK = "Category_id";
 
     //PurchaseTable Name/Column Names
     public static final String tablePurchases = "Purchases";
@@ -27,13 +28,17 @@ import android.util.Log;
     //BudgetTable Name/Column Names
     public static final String tableBudgets = "Budgets";
     public static final String columnBudgetID = "_id";
-    public static final String columnBudgetStartDate = "PurchaseDate";
-    public static final String columnBudgetFinDate = "PurchaseDate";
+    public static final String columnBudgetStartDate = "BudgetStartDate";
+    public static final String columnBudgetFinDate = "BudgetFinDate";
 
     //CategoryTable Name/Column Names
     public static final String tableCategories = "Categories";
     public static final String columnCategoryID = "_id";
     public static final String columnCategoryName = "CategoryName";
+
+    //BudCatLinkTable Name/Column Names
+    public static final String tableBudCatLink = "BudCatLink";
+    public static final String columnCatBudgetAmount = "CategoryBudgetAmount";
 
     //Database Name/Version
     private static final String dbName = "Budgee.db";
@@ -43,7 +48,8 @@ import android.util.Log;
     private static final String itemTableCreate = "create table "
             + tableItems + "( " + columnItemID
             + " integer primary key autoincrement, " + columnItemName
-            + " text not null " + columnItemPrice + " integer not null check (ItemPrice > 0));";
+            + " text not null " + columnItemPrice + " integer not null check (ItemPrice > 0) "
+            + "foreign key(" + columnCategoryIDFK + ") references Budgets(" + columnCategoryID + "));";
 
     //PurchaseTable creation sql statement
     private static final String purchaseTableCreate = "create table "
@@ -51,7 +57,7 @@ import android.util.Log;
             + " integer primary key autoincrement, " + columnPurchaseDate
             + " integer not null, " + columnItemIDFK + "integer not null, " + columnBudgetIDFK
             + "integer not null, " + "foreign key(" + columnItemIDFK + ") references Items(" + columnItemID
-            + "), foreign key(" + columnItemIDFK + ") references Budgets(" + columnBudgetID + "));";
+            + "), foreign key(" + columnBudgetIDFK + ") references Budgets(" + columnBudgetID + "));";
 
     //BudgetTable creation sql statement
     private static final String budgetTableCreate = "create table "
@@ -65,6 +71,14 @@ import android.util.Log;
             + " integer primary key autoincrement, " + columnCategoryName
             + " text not null);";
 
+    //CategoryTable creation sql statement
+    private static final String budCatLinkTableCreate = "create table "
+            + tableBudCatLink + "( " + columnBudgetIDFK + "integer not null, " + columnCategoryIDFK
+            + "integer not null, " + columnCatBudgetAmount + "integer not null,"
+            + "foreign key(" + columnBudgetIDFK + ") references Budgets(" + columnBudgetID + ") "
+            + "foreign key(" + columnCategoryIDFK + ") references Categories(" + columnCategoryID + ")"
+            + "primary key(" + columnBudgetIDFK + ", " + columnCategoryIDFK + "));";
+
     public DBHelper(Context context) {
         super(context, dbName, null, dbVer);
     }
@@ -75,6 +89,7 @@ import android.util.Log;
         database.execSQL(purchaseTableCreate);
         database.execSQL(budgetTableCreate);
         database.execSQL(categoryTableCreate);
+        database.execSQL(budCatLinkTableCreate);
     }
 
     @Override

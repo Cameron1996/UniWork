@@ -18,7 +18,7 @@ public class PurchaseDataSource {
     private SQLiteDatabase database;
     private DBHelper dbHelper;
     private String[] allColumns = { DBHelper.columnPurchaseID,
-            DBHelper.columnPurchaseDate};
+            DBHelper.columnPurchaseDate, DBHelper.columnItemIDFK, DBHelper.columnBudgetIDFK};
 
     public PurchaseDataSource(Context context) {
         dbHelper = new DBHelper(context);
@@ -59,6 +59,27 @@ public class PurchaseDataSource {
 
         Cursor cursor = database.query(DBHelper.tablePurchases,
                 allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Purchase purchase = cursorToPurchase(cursor);
+            purchaseList.add(purchase);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return purchaseList;
+    }
+
+    public List<Purchase> getCurrentBudgetPurchases(Date budgetStartDate, Date budgetFinDate) {
+        String whereClause = "PurchaseDate BETWEEN ? AND ?";
+        String[] whereArgs = new String[] {Long.toString(budgetStartDate.getTime()), Long.toString(budgetFinDate.getTime())};
+        String orderBy = "PurchaseDate";
+
+        List<Purchase> purchaseList = new ArrayList<Purchase>();
+
+        Cursor cursor = database.query(DBHelper.tablePurchases,
+                allColumns, whereClause, whereArgs, orderBy, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

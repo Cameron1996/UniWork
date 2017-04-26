@@ -57,6 +57,10 @@ public char[] decrypt(char[] toDecrypt){
 	}
 	return word2;}
 }
+
+    public void saveToDataBase(String name, String password, String hint){
+    
+    }
  
     private void printUsersInfo()
     {

@@ -15,9 +15,12 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 /**
  * Created by Will on 03/04/2017.
@@ -95,11 +98,27 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
+
+            public void onValueSelected(Entry e, Highlight h) {
+                // display msg when value selected
+                if (e == null)
+                    return;
+
+
+            }
+
+            @Override
+            public void onNothingSelected() {
+
+            }
+        });
+
         final Button button = (Button) findViewById(R.id.newBudgetButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CreateBudget.class);
-               startActivity(new Intent(MainActivity.this, CreateBudget.class));
+                startActivity(new Intent(MainActivity.this, CreateBudget.class));
             }
         });
 

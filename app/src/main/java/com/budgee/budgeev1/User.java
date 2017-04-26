@@ -18,6 +18,7 @@ public class User
     private String password = null; // will need to be encrypted when stored in database
     private String securityAnswer; // will need to be encrypted when stored in database
     private String email = null;
+    private String hint = null;
     Budget usersBudget = new Budget();
     
 	
@@ -30,6 +31,32 @@ public class User
 	    	this.email = email;
 	    	this.securityAnswer = securityAnswer;
     }
+	
+   public char[] encrypt(char[] toEncypt){
+	char[] word = toEncypt;
+	char[] word2 = new char[toEncypt.length];
+	for(int i=0; i<word.length; i++)
+	{
+		char tempChar;
+		tempChar = word[i];
+		tempChar++;
+		word2[i]=tempChar;
+	}
+	return word2;
+}
+
+public char[] decrypt(char[] toDecrypt){
+	char[] word = toDecrypt;
+	char[] word2 = new char[toDecrypt.length];
+	for(int i=0; i<word.length; i++)
+	{
+		char tempChar;
+		tempChar = word[i];
+		tempChar--;
+		word2[i]=tempChar;
+	}
+	return word2;}
+}
  
     private void printUsersInfo()
     {

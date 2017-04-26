@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Select Budget: "
+        android:gravity="center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/spinner"
+        android:layout_toStartOf="@+id/spinner"
+        android:layout_alignBottom="@+id/spinner" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/textView"/>
+
+
+    <RelativeLayout
+        android:id="@+id/tvCategoryCurrentSpending"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/chart">
+
+        <ProgressBar
+            android:id="@+id/progressBarCurrentSpending"
+            android:layout_width="320dp"
+            android:layout_height="60dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/current_spending_bar"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/newBudgetButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/tvCategoryCurrentSpending"
+        android:text="Create New Budget"
+        android:gravity="center"
+        />
+</RelativeLayout>

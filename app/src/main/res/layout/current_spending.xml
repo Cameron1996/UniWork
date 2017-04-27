@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:orientation="horizontal">
+
+    <ScrollView
+        android:id="@+id/allSpending"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/tvCategoryCurrentSpending"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/chart">
+
+        <ProgressBar
+            android:id="@+id/progressBarCurrentSpending"
+            android:layout_width="320dp"
+            android:layout_height="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:max="100"
+            android:progress="0"
+            />
+
+        <TextView
+            android:id="@+id/tvMin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progressBarCurrentSpending"
+            android:layout_alignLeft="@id/progressBarCurrentSpending"
+            android:text="Min"
+            />
+
+        <TextView
+            android:id="@+id/tvMax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/progressBarCurrentSpending"
+            android:layout_alignRight="@id/progressBarCurrentSpending"
+            android:text="Max"
+            />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+

@@ -12,15 +12,11 @@ import android.widget.Button;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.ListIterator;
 
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 /**
  * Created by Will on 03/04/2017.
@@ -32,9 +28,11 @@ public class MainActivity extends AppCompatActivity {
     private BudgetDataSource budgetDS;
     private ItemDataSource itemDS;
     private CategoryDataSource categoryDS;
+    private BudCatLinkDataSource budCatLinkDS;
 
     PieChart chart = (PieChart) findViewById(R.id.chart);
 
+    int currentBudgetID;
     ArrayList<Budget> budgets = new ArrayList<Budget>(budgetDS.getAllBudgets());
 
     @Override
@@ -52,36 +50,42 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                currentBudgetID = position;
                 List<PieEntry> entries = new ArrayList<PieEntry>();
-                List<Purchase> purchases = purchaseDS.getCurrentBudgetPurchases(budAdapt.getItem(position).getBudgetStartDate(), budAdapt.getItem(position).getBudgetFinishDate());
-                ArrayList<PieSection> catIDs = new ArrayList<PieSection>();
+                ArrayList<BudCatLink> budCatLinks = new ArrayList<BudCatLink>(budCatLinkDS.getBudCatLinks(currentBudgetID));
                 int totalAmount = 0;
 
-                for (Purchase p: purchases) {
-                    Item i = itemDS.getItem(p.getItemID());
-                    boolean sectionAlready = false;
-                    int sectionIndex = 0;
+//                List<Purchase> purchases = purchaseDS.getCurrentBudgetPurchases(budAdapt.getItem(position).getBudgetID());
 
-                    for (PieSection ps : catIDs){
-                        if (i.getCategoryID() == ps.getSectionID()) {
-                            sectionAlready = true;
-                            sectionIndex = catIDs.indexOf(ps);
-                            break;
-                        }
-                    }
-
-                    if (sectionAlready == true) {
-                        catIDs.get(sectionIndex).addToSectionTotal(i.getItemPrice());
-                    } else {
-                        catIDs.add(new PieSection(i.getCategoryID(), i.getItemPrice()));
-                    }
-
-                    totalAmount += i.getItemPrice();
+//
+//                for (Purchase p: purchases) {
+//                    Item i = itemDS.getItem(p.getItemID());
+//                    boolean sectionAlready = false;
+//                    int sectionIndex = 0;
+//
+//                    for (BudCatLink ps : budCatLinks){
+//                        if (i.getCategoryID() == ps.getSectionID()) {
+//                            sectionAlready = true;
+//                            sectionIndex = catIDs.indexOf(ps);
+//                            break;
+//                        }
+//                    }
+//
+//                    if (sectionAlready == true) {
+//                        catIDs.get(sectionIndex).addToSectionTotal(i.getItemPrice());
+//                    } else {
+//                        catIDs.add(new PieSection(i.getCategoryID(), i.getItemPrice()));
+//                    }
+//
+//                    totalAmount += i.getItemPrice();
+//                }
+                for (BudCatLink bc : budCatLinks) {
+                    totalAmount += bc.getCatBudgetAmount();
                 }
 
-                for (PieSection ps : catIDs) {
-                    float val = ps.getSectionTotal() / totalAmount * 100;
-                    String name = categoryDS.getCategory(ps.getSectionID()).getCategoryName();
+                for (BudCatLink bc : budCatLinks) {
+                    float val = bc.getCatBudgetAmount() / totalAmount * 100;
+                    String name = categoryDS.getCategory(bc.getCategoryID()).getCategoryName();
                     entries.add(new PieEntry(val, name));
                 }
 
@@ -89,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 PieData data = new PieData(set);
                 chart.setData(data);
                 chart.invalidate();
-
             }
 
             @Override
@@ -98,24 +101,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        chart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
-
-            public void onValueSelected(Entry e, Highlight h) {
-                // display msg when value selected
-                if (e == null)
-                    return;
-
-
-            }
-
-            @Override
-            public void onNothingSelected() {
-
+        final Button checkCurrentSpendingButton = (Button) findViewById(R.id.checkCurrentSpendingButton);
+        checkCurrentSpendingButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CurrentSpending.class);
+                intent.putExtra("BudgetID", currentBudgetID);
+                startActivity(new Intent(MainActivity.this, CurrentSpending.class));
             }
         });
 
-        final Button button = (Button) findViewById(R.id.newBudgetButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        final Button newBudgetButton = (Button) findViewById(R.id.newBudgetButton);
+        newBudgetButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CreateBudget.class);
                 startActivity(new Intent(MainActivity.this, CreateBudget.class));

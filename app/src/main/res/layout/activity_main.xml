@@ -36,31 +36,32 @@
         android:layout_height="300dp"
         android:layout_below="@+id/textView"/>
 
-
-    <RelativeLayout
-        android:id="@+id/tvCategoryCurrentSpending"
+    <Button
+        android:id="@+id/checkCurrentSpendingButton"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:layout_below="@+id/chart">
+        android:layout_height="40dp"
+        android:layout_below="@id/chart"
+        android:text="Check Current Spending"
+        android:gravity="center"
+        />
 
-        <ProgressBar
-            android:id="@+id/progressBarCurrentSpending"
-            android:layout_width="320dp"
-            android:layout_height="60dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/current_spending_bar"
-            />
-
-    </RelativeLayout>
+    <Button
+        android:id="@+id/newPurchaseButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/checkCurrentSpendingButton"
+        android:text="Add New Purchase"
+        android:gravity="center"
+        />
 
     <Button
         android:id="@+id/newBudgetButton"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/tvCategoryCurrentSpending"
+        android:layout_below="@+id/newPurchaseButton"
         android:text="Create New Budget"
         android:gravity="center"
         />
+
+
 </RelativeLayout>

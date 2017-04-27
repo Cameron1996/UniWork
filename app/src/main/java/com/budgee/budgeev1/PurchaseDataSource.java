@@ -18,7 +18,7 @@ public class PurchaseDataSource {
     private SQLiteDatabase database;
     private DBHelper dbHelper;
     private String[] allColumns = { DBHelper.columnPurchaseID,
-            DBHelper.columnPurchaseDate, DBHelper.columnItemIDFK, DBHelper.columnBudgetIDFK};
+            DBHelper.columnPurchaseDate, DBHelper.columnItemIDFK, DBHelper.columnBudgetIDFK, DBHelper.columnCategoryIDFK};
 
     public PurchaseDataSource(Context context) {
         dbHelper = new DBHelper(context);
@@ -32,11 +32,12 @@ public class PurchaseDataSource {
         dbHelper.close();
     }
 
-    public Purchase createPurchase(Date purchaseDate, int itemID, int budgetID){
+    public Purchase createPurchase(Date purchaseDate, int itemID, int budgetID, int categoryID){
         ContentValues values = new ContentValues();
         values.put(DBHelper.columnPurchaseDate, purchaseDate.getTime());
         values.put(DBHelper.columnItemIDFK, itemID);
         values.put(DBHelper.columnBudgetIDFK, budgetID);
+        values.put(DBHelper.columnCategoryIDFK, categoryID);
         long insertId = database.insert(DBHelper.tablePurchases, null, values);
         Cursor cursor = database.query(DBHelper.tablePurchases,
                 allColumns, DBHelper.columnPurchaseID + " = " + insertId, null,
@@ -71,9 +72,9 @@ public class PurchaseDataSource {
         return purchaseList;
     }
 
-    public List<Purchase> getCurrentBudgetPurchases(Date budgetStartDate, Date budgetFinDate) {
-        String whereClause = "PurchaseDate BETWEEN ? AND ?";
-        String[] whereArgs = new String[] {Long.toString(budgetStartDate.getTime()), Long.toString(budgetFinDate.getTime())};
+    public List<Purchase> getCurrentBudgetPurchases(int budgetID){
+        String whereClause = "Budget_id = ?";
+        String[] whereArgs = new String[] {Integer.toString(budgetID)};
         String orderBy = "PurchaseDate";
 
         List<Purchase> purchaseList = new ArrayList<Purchase>();
@@ -92,11 +93,40 @@ public class PurchaseDataSource {
         return purchaseList;
     }
 
+    public List<Purchase> getCurrentBudCatPurchases(BudCatLink budCatLink){
+        String whereClause = "Budget_id = ? AND Category_id = ?";
+        String[] whereArgs = new String[] {Integer.toString(budCatLink.getBudgetID())} ;
+    }
+
+//    public List<Purchase> getCurrentBudgetPurchases(Date budgetStartDate, Date budgetFinDate) {
+//        String whereClause = "PurchaseDate BETWEEN ? AND ?";
+//        String[] whereArgs = new String[] {Long.toString(budgetStartDate.getTime()), Long.toString(budgetFinDate.getTime())};
+//        String orderBy = "PurchaseDate";
+//
+//        List<Purchase> purchaseList = new ArrayList<Purchase>();
+//
+//        Cursor cursor = database.query(DBHelper.tablePurchases,
+//                allColumns, whereClause, whereArgs, orderBy, null, null);
+//
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            Purchase purchase = cursorToPurchase(cursor);
+//            purchaseList.add(purchase);
+//            cursor.moveToNext();
+//        }
+//        // make sure to close the cursor
+//        cursor.close();
+//        return purchaseList;
+//    }
+
     private Purchase cursorToPurchase(Cursor cursor) {
         Purchase purchase = new Purchase();
         Date date = new Date((long)cursor.getInt(1) * 1000); //Must convert from int to Date
         purchase.setPurchaseID(cursor.getInt(0));
         purchase.setPurchaseDate(date);
+        purchase.setItemID(cursor.getInt(2));
+        purchase.setBudgetID(cursor.getInt(3));
+        purchase.setCategoryID(cursor.getInt(4));
         return purchase;
     }
 }

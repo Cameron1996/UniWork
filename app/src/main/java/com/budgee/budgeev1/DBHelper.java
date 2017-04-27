@@ -16,7 +16,6 @@ import android.util.Log;
     public static final String columnItemID = "_id";
     public static final String columnItemName = "ItemName";
     public static final String columnItemPrice = "ItemPrice";
-    public static final String columnCategoryIDFK = "Category_id";
 
     //PurchaseTable Name/Column Names
     public static final String tablePurchases = "Purchases";
@@ -24,6 +23,7 @@ import android.util.Log;
     public static final String columnPurchaseDate = "PurchaseDate";
     public static final String columnItemIDFK = "Item_id";
     public static final String columnBudgetIDFK = "Budget_id";
+    public static final String columnCategoryIDFK = "Category_id";
 
     //BudgetTable Name/Column Names
     public static final String tableBudgets = "Budgets";
@@ -48,8 +48,7 @@ import android.util.Log;
     private static final String itemTableCreate = "create table "
             + tableItems + "( " + columnItemID
             + " integer primary key autoincrement, " + columnItemName
-            + " text not null " + columnItemPrice + " integer not null check (ItemPrice > 0) "
-            + "foreign key(" + columnCategoryIDFK + ") references Budgets(" + columnCategoryID + "));";
+            + " text not null " + columnItemPrice + " integer not null check (ItemPrice > 0));";
 
     //PurchaseTable creation sql statement
     private static final String purchaseTableCreate = "create table "
@@ -57,7 +56,8 @@ import android.util.Log;
             + " integer primary key autoincrement, " + columnPurchaseDate
             + " integer not null, " + columnItemIDFK + "integer not null, " + columnBudgetIDFK
             + "integer not null, " + "foreign key(" + columnItemIDFK + ") references Items(" + columnItemID
-            + "), foreign key(" + columnBudgetIDFK + ") references Budgets(" + columnBudgetID + "));";
+            + "), foreign key(" + columnBudgetIDFK + ") references Budgets(" + columnBudgetID
+            + "), foreign key(" + columnCategoryIDFK + ") references Categories(" + columnCategoryID + "));";
 
     //BudgetTable creation sql statement
     private static final String budgetTableCreate = "create table "

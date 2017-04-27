@@ -17,7 +17,7 @@ public class ItemDataSource {
     private SQLiteDatabase database;
     private DBHelper dbHelper;
     private String[] allColumns = { DBHelper.columnItemID,
-            DBHelper.columnItemName, DBHelper.columnItemPrice, DBHelper.columnCategoryIDFK};
+            DBHelper.columnItemName, DBHelper.columnItemPrice};
 
     public ItemDataSource(Context context) {
         dbHelper = new DBHelper(context);
@@ -35,7 +35,6 @@ public class ItemDataSource {
         ContentValues values = new ContentValues();
         values.put(DBHelper.columnItemName, itemName);
         values.put(DBHelper.columnItemPrice, itemPrice);
-        values.put(DBHelper.columnCategoryIDFK, categoryID);
         long insertId = database.insert(DBHelper.tableItems, null, values);
         Cursor cursor = database.query(DBHelper.tableItems,
                 allColumns, DBHelper.columnItemID + " = " + insertId, null,
@@ -54,8 +53,7 @@ public class ItemDataSource {
     }
 
     public Item getItem(int itemID) {
-
-        String whereClause = "columnItemID EQUALS ?";
+        String whereClause = "columnItemID = ?";
         String[] whereArgs = new String[] {Integer.toString(itemID)};
 
         Cursor cursor = database.query(DBHelper.tableItems,

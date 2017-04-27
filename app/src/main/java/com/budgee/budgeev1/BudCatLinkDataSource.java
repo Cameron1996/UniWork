@@ -57,7 +57,7 @@ public class BudCatLinkDataSource {
     }
 
     public List<BudCatLink> getBudCatLinks(int budgetID) {
-        String whereClause = "Budget_id EQUALS ?";
+        String whereClause = "Budget_id = ?";
         String[] whereArgs = new String[] {Integer.toString(budgetID)};
         String orderBy = "Category_id";
 

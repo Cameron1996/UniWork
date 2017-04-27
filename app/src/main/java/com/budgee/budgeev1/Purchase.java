@@ -11,6 +11,7 @@ public class Purchase {
     private Date purchaseDate;
     private int itemID;
     private int budgetID;
+    private int categoryID;
 
     public int getPurchaseID(){
         return purchaseID;
@@ -28,6 +29,10 @@ public class Purchase {
         return budgetID;
     }
 
+    public int getCategoryID() {
+        return categoryID;
+    }
+
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
@@ -42,5 +47,9 @@ public class Purchase {
 
     public void setBudgetID(int budgetID) {
         this.budgetID = budgetID;
+    }
+
+    public void setCategoryID(int categoryID) {
+        this.categoryID = categoryID;
     }
 }

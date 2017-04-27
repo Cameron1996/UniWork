@@ -7,8 +7,7 @@ package com.budgee.budgeev1;
 public class Item {
     private int itemID;
     private String itemName;
-    private int itemPrice;
-
+    private int itemPrice; // should it not be double?
     public int getItemID() {
         return itemID;
     }

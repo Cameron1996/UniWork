@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="1">
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#bbbbbb"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="10pt"
+        android:text="@string/tutorial_title_5" />
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ScrollView01"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/tutorial_body_5"
+                android:textSize="10pt" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="189dp"
+                android:layout_height="wrap_content"
+                android:background="#bbbbbb"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:textSize="10pt"
+                android:text="@string/tutorial_title_checklist"
+                android:layout_weight="0.39" />
+
+            <CheckBox
+                android:id="@+id/checkBox14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:buttonTint="#1d4e89"
+                android:text="Be aware of the risks of borrowing" />
+
+            <CheckBox
+                android:id="@+id/checkBox15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:buttonTint="#1d4e89"
+                android:text="Read the T&amp;Cs before agreeing to the loan" />
+
+            <CheckBox
+                android:id="@+id/checkBox16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:buttonTint="#1d4e89"
+                android:text="Calculate interest to see how much you will actually have to pay back" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/button13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#000000"
+                    android:textColor="#388c00"
+                    android:layout_margin="10dp"
+                    android:text="Previous" />
+
+                <Button
+                    android:id="@+id/button14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="#388c00"
+                    android:textColor="#000000"
+                    android:layout_margin="10dp"
+                    android:text="Next" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

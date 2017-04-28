@@ -110,6 +110,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final Button addPurchaseButton = (Button) findViewById(R.id.newPurchaseButton);
+        addPurchaseButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, CreatePurchase.class);
+                intent.putExtra("BudgetID", currentBudgetID);
+                startActivity(new Intent(MainActivity.this, CreatePurchase.class));
+            }
+        });
+
         final Button newBudgetButton = (Button) findViewById(R.id.newBudgetButton);
         newBudgetButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

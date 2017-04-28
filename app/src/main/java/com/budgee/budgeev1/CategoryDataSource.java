@@ -52,8 +52,7 @@ public class CategoryDataSource {
     }
 
     public Category getCategory(int categoryID) {
-
-        String whereClause = "columnCategoryID EQUALS ?";
+        String whereClause = "Category_id = ?";
         String[] whereArgs = new String[] {Integer.toString(categoryID)};
 
         Cursor cursor = database.query(DBHelper.tableCategories,

@@ -79,7 +79,7 @@ public class CreateBudget extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_create);
 
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        final Spinner spinner = (Spinner) findViewById(R.id.categorySpinner);
         final CategoryAdapter catAdapt = new CategoryAdapter(getApplicationContext(), categories);
         catAdapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(catAdapt);
@@ -91,6 +91,10 @@ public class CreateBudget extends Activity {
                 EditText pounds = (EditText)findViewById(R.id.priceInputPounds);
                 EditText pence = (EditText)findViewById(R.id.priceInputPence);
 
+                if (t.getText().equals("") || pounds.getText().equals("") || pence.getText().equals("")) {
+                    return; //If any category is not filled, the program will not add the category
+                }
+
                 t.setText(t.getText() + currentCategory.getCategoryName() + " - £"  + pounds.getText() + "." + pence.getText() + "\r\n");
 
                 BudCatLink budCatLink = new BudCatLink();
@@ -98,6 +102,11 @@ public class CreateBudget extends Activity {
                 budCatLink.setCatBudgetAmount(Integer.parseInt((pounds.toString() + pence.toString())));
 
                 tempLinks.add(new BudCatLink());
+
+                spinner.setSelection(0); //Reset all values
+                pounds.setText("");
+                pence.setText("");
+
             }
         });
 
@@ -156,10 +165,19 @@ public class CreateBudget extends Activity {
         final Button confirmBudgetButton = (Button) findViewById(R.id.confirmBudgetButton);
         confirmBudgetButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v){
+                TextView t = (TextView)findViewById(R.id.tvAllCategoriesCurrentBudget);
+                EditText startDateED = (EditText)findViewById(R.id.startDate);
+                EditText finDateED = (EditText)findViewById(R.id.finDate);
+
+                if (startDateED.getText().equals("") || finDateED.equals("") || t.getText().equals("")) {
+                    return;
+                }
+
                 Budget b = budgetDS.createBudget(startCalendar.getTime(), finCalendar.getTime());
                 for(BudCatLink link: tempLinks){
                     budCatLinkDS.createBudCatLink(b.getBudgetID(), link.getCategoryID(),link.getCatBudgetAmount());
                 }
+                finish();
         }
         });
 

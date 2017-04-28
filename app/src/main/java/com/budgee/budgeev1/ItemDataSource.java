@@ -31,7 +31,7 @@ public class ItemDataSource {
         dbHelper.close();
     }
 
-    public Item createItem(String itemName, int itemPrice, int categoryID){
+    public Item createItem(String itemName, int itemPrice){
         ContentValues values = new ContentValues();
         values.put(DBHelper.columnItemName, itemName);
         values.put(DBHelper.columnItemPrice, itemPrice);

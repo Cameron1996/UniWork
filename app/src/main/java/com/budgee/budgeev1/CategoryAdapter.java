@@ -19,8 +19,8 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
         private TextView itemView;
     }
 
-    public CategoryAdapter(Context context, ArrayList<Category> items) {
-        super(context, R.layout.current_category, items);
+    public CategoryAdapter(Context context, ArrayList<Category> categories) {
+        super(context, R.layout.current_category, categories);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -37,11 +37,9 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
             vHolder = (CategoryAdapter.ViewHolder) convertView.getTag();
         }
 
-        Category item = getItem(position);
-        if (item!= null) {
-            // My layout has only one TextView
-            // do whatever you want with your string and long
-            vHolder.itemView.setText(String.format("%s", item.getCategoryName()));
+        Category category = getItem(position);
+        if (category!= null) {
+            vHolder.itemView.setText(String.format("%s", category.getCategoryName()));
         }
 
         return convertView;

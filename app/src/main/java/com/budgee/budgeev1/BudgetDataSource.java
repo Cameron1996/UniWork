@@ -53,6 +53,18 @@ public class BudgetDataSource {
                 + " = " + id, null);
     }
 
+    public Budget getBudget(int budgetID) {
+        String whereClause = "Budget_id = ?";
+        String[] whereArgs = new String[] {Integer.toString(budgetID)};
+
+        Cursor cursor = database.query(DBHelper.tableCategories,
+                allColumns, whereClause, whereArgs, null, null, null);
+
+        cursor.moveToFirst();
+
+        return cursorToBudget(cursor);
+    }
+
     public List<Budget> getAllBudgets() {
         List<Budget> budgetList = new ArrayList<Budget>();
 

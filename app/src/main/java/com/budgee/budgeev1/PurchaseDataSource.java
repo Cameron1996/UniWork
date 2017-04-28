@@ -93,9 +93,20 @@ public class PurchaseDataSource {
         return purchaseList;
     }
 
-    public List<Purchase> getCurrentBudCatPurchases(BudCatLink budCatLink){
-        String whereClause = "Budget_id = ? AND Category_id = ?";
-        String[] whereArgs = new String[] {Integer.toString(budCatLink.getBudgetID())} ;
+    public int getCurrentSpending(BudCatLink budCatLink){
+        int totalSpending = 0;
+
+        Cursor cursor = database.rawQuery("SELECT ? FROM ? INNER JOIN ? ON ? = ? WHERE ? = ? AND ? = ?;", new String[] {"Items.ItemPrice", "Items",
+                "Purchases", "Items._id", "Purchases.Item_id", "Purchases.Budget_id", Integer.toString(budCatLink.getBudgetID()),
+                "Purchases.Category_id", Integer.toString(budCatLink.getCategoryID())});
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            totalSpending += cursor.getInt(0);
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return totalSpending;
     }
 
 //    public List<Purchase> getCurrentBudgetPurchases(Date budgetStartDate, Date budgetFinDate) {

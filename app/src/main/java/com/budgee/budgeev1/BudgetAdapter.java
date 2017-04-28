@@ -36,11 +36,11 @@ public class BudgetAdapter extends ArrayAdapter<Budget> {
             vHolder = (ViewHolder) convertView.getTag();
         }
 
-        Budget item = getItem(position);
-        if (item!= null) {
+        Budget budget = getItem(position);
+        if (budget!= null) {
             // My layout has only one TextView
             // do whatever you want with your string and long
-            vHolder.itemView.setText(String.format("%s - %d", item.getBudgetStartDate(), item.getBudgetFinishDate()));
+            vHolder.itemView.setText(String.format("%t - %t", budget.getBudgetStartDate(), budget.getBudgetFinishDate()));
         }
 
         return convertView;

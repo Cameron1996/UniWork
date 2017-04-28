@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="16dp"
+    android:paddingBottom="16dp"
+    android:orientation="horizontal"
+    android:layout_gravity="bottom">
+
+    <TextView
+        android:id="@+id/tvQuickPurchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="Quick Purchase"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/itemSpinnerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Item"
+        android:textSize="10dp"
+        android:layout_below="@+id/tvQuickPurchase"
+        />
+
+    <Spinner
+        android:id="@+id/quickBuyItemSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemSpinnerLabel"
+        android:layout_alignParentLeft="true"
+        />
+
+    <TextView
+        android:id="@+id/categorySpinnerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Category"
+        android:textSize="10dp"
+        android:layout_below="@+id/quickBuyItemSpinner"
+        android:paddingTop="6dp"
+        />
+
+    <Spinner
+        android:id="@+id/quickBuyCategorySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/categorySpinnerLabel"
+        android:layout_alignParentLeft="true"
+        />
+
+    <TextView
+        android:id="@+id/setQuickBuyDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Date of Purchase"
+        android:textSize="10dp"
+        android:layout_below="@+id/quickBuyCategorySpinner"
+        android:paddingTop="6dp"
+        />
+
+    <EditText
+        android:id="@+id/setQuickBuyDate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/setQuickBuyDateLabel"
+        android:hint="--/--/--"
+        android:textSize="14dp"
+        />
+
+    <Button
+        android:id="@+id/confirmQuickBuyButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/setQuickBuyDate"
+        android:layout_alignParentRight="true"
+        android:text="Confirm Purchase"
+        android:textSize="8dp"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/tvNewPurchase"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Purchase"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        android:layout_below="@id/confirmQuickBuyButton"
+        android:gravity="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        />
+
+    <TextView
+        android:id="@+id/setItemNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Item Name"
+        android:textSize="10dp"
+        android:layout_below="@+id/tvNewPurchase"
+        />
+
+    <EditText
+        android:id="@+id/setNewItemName"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/setItemNameLabel"
+        android:textSize="14dp"
+        />
+
+    <TextView
+        android:id="@+id/setItemPriceLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Item Price"
+        android:textSize="10dp"
+        android:layout_below="@+id/setNewItemName"
+        android:paddingTop="6dp"
+        />
+
+    <TextView
+        android:id="@+id/priceInputPoundSymbol"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="£"
+        android:textSize="14dp"
+        android:layout_below="@+id/setItemPriceLabel"
+        android:layout_toLeftOf="@+id/priceInputPounds"
+        android:layout_alignBottom="@+id/priceInputPounds"
+        android:layout_margin="4dp"
+        android:gravity="center"
+        />
+
+    <EditText
+        android:id="@+id/priceInputPounds"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setItemPriceLabel"
+        android:layout_toLeftOf="@+id/priceInputDecPoint"
+        android:hint="0"
+        android:textSize="14dp"
+        android:inputType="number"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/priceInputDecPoint"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:text="."
+        android:textSize="14dp"
+        android:layout_below="@+id/setItemPriceLabel"
+        android:gravity="center"
+        android:layout_toLeftOf="@+id/priceInputPence"
+        android:layout_alignBottom="@+id/priceInputPounds"
+        />
+
+    <EditText
+        android:id="@+id/priceInputPence"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/setItemPriceLabel"
+        android:layout_alignRight="@+id/setNewItemName"
+        android:hint="00"
+        android:textSize="14dp"
+        android:inputType="number"
+        android:gravity="center"
+        />
+
+    <TextView
+        android:id="@+id/newPurchaseCategorySpinnerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Category"
+        android:textSize="10dp"
+        android:layout_below="@+id/priceInputPoundSymbol"
+        android:paddingTop="6dp"
+        />
+
+    <Spinner
+        android:id="@+id/newPurchaseCategorySpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newPurchaseCategorySpinnerLabel"
+        />
+
+    <TextView
+        android:id="@+id/setNewPurchaseDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set Date of Purchase"
+        android:textSize="10dp"
+        android:layout_below="@+id/newPurchaseCategorySpinner"
+        android:paddingTop="6dp"
+        />
+
+    <EditText
+        android:id="@+id/setNewPurchaseDate"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/setNewPurchaseDateLabel"
+        android:hint="--/--/--"
+        android:textSize="14dp"
+        />
+
+    <Button
+        android:id="@+id/confirmNewPurchaseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/setNewPurchaseDate"
+        android:layout_alignParentRight="true"
+        android:text="Confirm Purchase"
+        android:textSize="8dp"
+        android:gravity="center"
+        />
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/confirmNewPurchaseButton"
+        android:text="Exit Purchase Menu"
+        android:gravity="center"
+        />
+
+</RelativeLayout>

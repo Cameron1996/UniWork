@@ -10,11 +10,34 @@
     android:orientation="horizontal">
 
     <ScrollView
-        android:id="@+id/allSpending"
+        android:id="@+id/allSpendingBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="270dp">
     </ScrollView>
 
+    <ScrollView
+        android:id="@+id/allPurchases"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@+id/allSpendingBar">
+
+        <TextView
+            android:id="@+id/tvAllPurchases"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/exitButton"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/allPurchases"
+        android:text="Exit Current Spending"
+        android:gravity="center"
+        />
+
+    <!--
     <RelativeLayout
         android:id="@+id/tvCategoryCurrentSpending"
         android:layout_width="match_parent"
@@ -52,7 +75,7 @@
             />
 
     </RelativeLayout>
-
+    -->
 
 </RelativeLayout>
 

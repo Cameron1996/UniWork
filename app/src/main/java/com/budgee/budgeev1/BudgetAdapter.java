@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -18,30 +21,42 @@ public class BudgetAdapter extends ArrayAdapter<Budget> {
         private TextView itemView;
     }
 
-    public BudgetAdapter(Context context, ArrayList<Budget> items) {
-        super(context, R.layout.current_budget, items);
+    public BudgetAdapter(Context context, ArrayList<Budget> budgets) {
+        super(context, R.layout.current_budget, budgets);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ViewHolder vHolder = new ViewHolder();
-        vHolder.itemView = (TextView) convertView.findViewById(R.id.tvBudget);
+        Budget budget = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(this.getContext())
                     .inflate(R.layout.current_budget, parent, false);
-
-            convertView.setTag(vHolder);
-        } else {
-            vHolder = (ViewHolder) convertView.getTag();
         }
+
+        TextView budName = (TextView) convertView.findViewById(R.id.tvBudget);
+
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        budName.setText(formatter.format(budget.getBudgetStartDate()) + " - " + formatter.format(budget.getBudgetFinishDate()));
+
+        return convertView;
+    }
+
+    public View getDropDownView (int position, View convertView, ViewGroup parent) {
 
         Budget budget = getItem(position);
-        if (budget!= null) {
-            // My layout has only one TextView
-            // do whatever you want with your string and long
-            vHolder.itemView.setText(String.format("%t - %t", budget.getBudgetStartDate(), budget.getBudgetFinishDate()));
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(this.getContext())
+                    .inflate(R.layout.current_budget, parent, false);
         }
+
+        TextView budName = (TextView) convertView.findViewById(R.id.tvBudget);
+
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        budName.setText(formatter.format(budget.getBudgetStartDate()) + " - " + formatter.format(budget.getBudgetFinishDate()));
 
         return convertView;
     }

@@ -75,6 +75,7 @@
         android:layout_below="@+id/setQuickBuyDateLabel"
         android:hint="--/--/--"
         android:textSize="14dp"
+        android:focusable="false"
         />
 
     <Button
@@ -203,6 +204,7 @@
         android:textSize="10dp"
         android:layout_below="@+id/newPurchaseCategorySpinner"
         android:paddingTop="6dp"
+        android:focusable="false"
         />
 
     <EditText

@@ -4,6 +4,7 @@ package com.budgee.budgeev1;
  * Created by Will on 20/02/2017.
  */
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +35,10 @@ public class BudgetDataSource {
 
     public Budget createBudget(Date budgetStartDate, Date budgetFinDate){
         ContentValues values = new ContentValues();
+
         values.put(DBHelper.columnBudgetStartDate, budgetStartDate.getTime());
         values.put(DBHelper.columnBudgetFinDate, budgetFinDate.getTime());
+
         long insertId = database.insert(DBHelper.tableBudgets, null, values);
         Cursor cursor = database.query(DBHelper.tableBudgets,
                 allColumns, DBHelper.columnBudgetID + " = " + insertId, null,
@@ -57,7 +60,7 @@ public class BudgetDataSource {
         String whereClause = "Budget_id = ?";
         String[] whereArgs = new String[] {Integer.toString(budgetID)};
 
-        Cursor cursor = database.query(DBHelper.tableCategories,
+        Cursor cursor = database.query(DBHelper.tableBudgets,
                 allColumns, whereClause, whereArgs, null, null, null);
 
         cursor.moveToFirst();
@@ -84,8 +87,8 @@ public class BudgetDataSource {
 
     private Budget cursorToBudget(Cursor cursor) {
         Budget budget = new Budget();
-        Date startDate = new Date((long)cursor.getInt(1) * 1000);
-        Date finDate = new Date((long)cursor.getInt(2) * 1000);
+        Date startDate = new Date(cursor.getLong(1));
+        Date finDate = new Date(cursor.getLong(2));
         budget.setBudgetID(cursor.getInt(0));
         budget.setBudgetStartDate(startDate);
         budget.setBudgetFinishDate(finDate);

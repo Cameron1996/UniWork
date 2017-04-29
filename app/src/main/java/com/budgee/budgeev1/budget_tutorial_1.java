@@ -1,4 +1,4 @@
-package team3.budgee.activity;
+package com.budgee.budgeev1;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import team3.budgee.R;
 
 public class budget_tutorial_1 extends AppCompatActivity {
 

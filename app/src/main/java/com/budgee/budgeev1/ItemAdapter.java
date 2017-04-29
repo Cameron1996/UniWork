@@ -25,23 +25,32 @@ public class ItemAdapter extends ArrayAdapter<Item> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        ItemAdapter.ViewHolder vHolder = new ItemAdapter.ViewHolder();
-        vHolder.itemView = (TextView) convertView.findViewById(R.id.tvItem);
+        Item item = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(this.getContext())
                     .inflate(R.layout.current_item, parent, false);
-
-            convertView.setTag(vHolder);
-        } else {
-            vHolder = (ItemAdapter.ViewHolder) convertView.getTag();
         }
+
+        TextView itemName = (TextView) convertView.findViewById(R.id.tvItem);
+
+        itemName.setText(item.getItemName() + " - " + item.getItemPrice());
+
+        return convertView;
+    }
+
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
 
         Item item = getItem(position);
-        if (item!= null) {
-            vHolder.itemView.setText(String.format("%s (£%s.%s)", item.getItemName(), Integer.toString(item.getItemPrice()).substring(0,1),
-                    Integer.toString(item.getItemPrice()).substring(1,3)));
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(this.getContext())
+                    .inflate(R.layout.current_item, parent, false);
         }
+
+        TextView itemName = (TextView) convertView.findViewById(R.id.tvItem);
+
+        itemName.setText(item.getItemName() + " - " + item.getItemPrice());
 
         return convertView;
     }

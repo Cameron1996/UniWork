@@ -4,6 +4,7 @@ package com.budgee.budgeev1;
  * Created by Will on 16/02/2017.
  */
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ItemDataSource {
         dbHelper.close();
     }
 
-    public Item createItem(String itemName, int itemPrice){
+    public Item createItem(String itemName, String itemPrice){
         ContentValues values = new ContentValues();
         values.put(DBHelper.columnItemName, itemName);
         values.put(DBHelper.columnItemPrice, itemPrice);
@@ -85,7 +86,7 @@ public class ItemDataSource {
         Item item = new Item();
         item.setItemID(cursor.getInt(0));
         item.setItemName(cursor.getString(1));
-        item.setItemPrice(cursor.getInt(2));
+        item.setItemPrice(new BigDecimal(cursor.getString(2)));
         return item;
     }
 }

@@ -9,8 +9,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CreateBudget"
-            android:label="@string/title_activity_create_budget"></activity>
-    </application>
+            android:name=".MainActivity"
+            android:label="Budgee">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
+        <activity
+            android:name=".CreateBudget"
+            android:label="Budgee">
+        </activity>
+
+        <activity
+            android:name=".CreatePurchase"
+            android:label="Budgee">
+        </activity>
+
+        <activity
+            android:name=".CurrentSpending"
+            android:label="Budgee">
+        </activity>
+
+
+
+
+
+
+    </application>
 </manifest>

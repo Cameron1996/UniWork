@@ -25,24 +25,35 @@ public class CategoryAdapter extends ArrayAdapter<Category> {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        CategoryAdapter.ViewHolder vHolder = new CategoryAdapter.ViewHolder();
-        vHolder.itemView = (TextView) convertView.findViewById(R.id.tvCategory);
+        Category category = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(this.getContext())
                     .inflate(R.layout.current_category, parent, false);
-
-            convertView.setTag(vHolder);
-        } else {
-            vHolder = (CategoryAdapter.ViewHolder) convertView.getTag();
         }
 
-        Category category = getItem(position);
-        if (category!= null) {
-            vHolder.itemView.setText(String.format("%s", category.getCategoryName()));
-        }
+        TextView catName = (TextView) convertView.findViewById(R.id.tvCategory);
+
+        catName.setText(category.getCategoryName());
 
         return convertView;
     }
+
+    public View getDropDownView(int position, View convertView, ViewGroup parent) {
+
+        Category category = getItem(position);
+
+        if (convertView == null) {
+            convertView = LayoutInflater.from(this.getContext())
+                    .inflate(R.layout.current_category, parent, false);
+        }
+
+        TextView catName = (TextView) convertView.findViewById(R.id.tvCategory);
+
+        catName.setText(category.getCategoryName());
+
+        return convertView;
+    }
+
 
 }

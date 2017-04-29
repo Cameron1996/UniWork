@@ -1,12 +1,10 @@
-package team3.budgee.activity;
+package com.budgee.budgeev1;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
-import team3.budgee.R;
 
 public class activity_welcome_tutorial_1 extends AppCompatActivity {
 

@@ -1,5 +1,7 @@
 package com.budgee.budgeev1;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Will on 22/04/2017.
  */
@@ -7,7 +9,7 @@ package com.budgee.budgeev1;
 public class BudCatLink {
     private int budgetID;
     private int categoryID;
-    private int catBudgetAmount;
+    private BigDecimal catBudgetAmount;
 
     public int getBudgetID() {
         return budgetID;
@@ -17,7 +19,7 @@ public class BudCatLink {
         return categoryID;
     }
 
-    public int getCatBudgetAmount() {
+    public BigDecimal getCatBudgetAmount() {
         return catBudgetAmount;
     }
 
@@ -29,7 +31,7 @@ public class BudCatLink {
         this.categoryID = categoryID;
     }
 
-    public void setCatBudgetAmount(int catBudgetAmount) {
+    public void setCatBudgetAmount(BigDecimal catBudgetAmount) {
         this.catBudgetAmount = catBudgetAmount;
     }
 }

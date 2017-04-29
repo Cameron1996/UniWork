@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="team3.budgee.activity.activity_welcome_tutorial_3">
+    >
 
     <Button
         android:id="@+id/tutorial_nextButton3"

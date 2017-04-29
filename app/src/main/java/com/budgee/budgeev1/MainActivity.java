@@ -24,22 +24,32 @@ import com.github.mikephil.charting.data.PieEntry;
 
 public class MainActivity extends AppCompatActivity {
 
-    private PurchaseDataSource purchaseDS;
     private BudgetDataSource budgetDS;
-    private ItemDataSource itemDS;
     private CategoryDataSource categoryDS;
     private BudCatLinkDataSource budCatLinkDS;
 
-    PieChart chart = (PieChart) findViewById(R.id.chart);
+    PieChart chart;
 
     int currentBudgetID;
-    ArrayList<Budget> budgets = new ArrayList<Budget>(budgetDS.getAllBudgets());
+    ArrayList<Budget> budgets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        budgetDS = new BudgetDataSource(this);
+
+        categoryDS = new CategoryDataSource(this);
+
+        budCatLinkDS = new BudCatLinkDataSource(this);
+
+        chart = (PieChart) findViewById(R.id.chart);
+
+        budgetDS.open();
+        budgets = new ArrayList<Budget>(budgetDS.getAllBudgets());
+        budgetDS.close();
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner);
         final BudgetAdapter budAdapt = new BudgetAdapter(getApplicationContext(), budgets);
@@ -49,45 +59,27 @@ public class MainActivity extends AppCompatActivity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                currentBudgetID = position;
+                currentBudgetID = budgets.get(position).getBudgetID();
                 List<PieEntry> entries = new ArrayList<PieEntry>();
+
+                budCatLinkDS.open();
                 ArrayList<BudCatLink> budCatLinks = new ArrayList<BudCatLink>(budCatLinkDS.getBudCatLinks(currentBudgetID));
-                int totalAmount = 0;
+                budCatLinkDS.close();
 
-//                List<Purchase> purchases = purchaseDS.getCurrentBudgetPurchases(budAdapt.getItem(position).getBudgetID());
-
+//                int totalAmount = 0;
 //
-//                for (Purchase p: purchases) {
-//                    Item i = itemDS.getItem(p.getItemID());
-//                    boolean sectionAlready = false;
-//                    int sectionIndex = 0;
-//
-//                    for (BudCatLink ps : budCatLinks){
-//                        if (i.getCategoryID() == ps.getSectionID()) {
-//                            sectionAlready = true;
-//                            sectionIndex = catIDs.indexOf(ps);
-//                            break;
-//                        }
-//                    }
-//
-//                    if (sectionAlready == true) {
-//                        catIDs.get(sectionIndex).addToSectionTotal(i.getItemPrice());
-//                    } else {
-//                        catIDs.add(new PieSection(i.getCategoryID(), i.getItemPrice()));
-//                    }
-//
-//                    totalAmount += i.getItemPrice();
+//                for (BudCatLink bc : budCatLinks) {
+//                    totalAmount += bc.getCatBudgetAmount();
 //                }
-                for (BudCatLink bc : budCatLinks) {
-                    totalAmount += bc.getCatBudgetAmount();
-                }
 
+                categoryDS.open();
                 for (BudCatLink bc : budCatLinks) {
-                    float val = bc.getCatBudgetAmount() / totalAmount * 100;
+                    //float val = bc.getCatBudgetAmount() / totalAmount * 100;
+                    float val = bc.getCatBudgetAmount().floatValue();
                     String name = categoryDS.getCategory(bc.getCategoryID()).getCategoryName();
                     entries.add(new PieEntry(val, name));
                 }
+                categoryDS.close();
 
                 PieDataSet set = new PieDataSet(entries, "Budget");
                 PieData data = new PieData(set);
@@ -106,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CurrentSpending.class);
                 intent.putExtra("BudgetID", currentBudgetID);
-                startActivity(new Intent(MainActivity.this, CurrentSpending.class));
+                startActivity(intent);
             }
         });
 
@@ -115,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CreatePurchase.class);
                 intent.putExtra("BudgetID", currentBudgetID);
-                startActivity(new Intent(MainActivity.this, CreatePurchase.class));
+                startActivity(intent);
             }
         });
 
@@ -123,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         newBudgetButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CreateBudget.class);
-                startActivity(new Intent(MainActivity.this, CreateBudget.class));
+                startActivity(intent);
             }
         });
 

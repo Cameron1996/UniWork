@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.ArrayList;
@@ -23,9 +24,9 @@ public class CreateBudget extends Activity {
     private CategoryDataSource categoryDS;
     private BudCatLinkDataSource budCatLinkDS;
 
-    Category currentCategory = new Category();
-    ArrayList<Category> categories = new ArrayList<Category>(categoryDS.getAllCategories());
-    ArrayList<BudCatLink> tempLinks = new ArrayList<BudCatLink>();
+    Category currentCategory;
+    ArrayList<Category> categories;
+    ArrayList<BudCatLink> tempLinks;
 
     final Calendar startCalendar = Calendar.getInstance();
     final Calendar finCalendar = Calendar.getInstance();
@@ -55,8 +56,7 @@ public class CreateBudget extends Activity {
     };
 
     private void updateStartLabel(){
-
-        String myFormat = "dd/mm/yy"; //In which you need put here
+        String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
         EditText ed = (EditText) findViewById(R.id.startDate);
@@ -66,7 +66,7 @@ public class CreateBudget extends Activity {
 
     private void updateFinLabel(){
 
-        String myFormat = "dd/mm/yy"; //In which you need put here
+        String myFormat = "dd/MM/yy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.UK);
 
         EditText ed = (EditText) findViewById(R.id.finDate);
@@ -78,6 +78,16 @@ public class CreateBudget extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_budget_create);
+
+        budgetDS = new BudgetDataSource(this);
+        categoryDS = new CategoryDataSource(this);
+        budCatLinkDS = new BudCatLinkDataSource(this);
+
+        categoryDS.open();
+        categories = new ArrayList<Category>(categoryDS.getAllCategories());
+        categoryDS.close();
+
+        tempLinks = new ArrayList<BudCatLink>();
 
         final Spinner spinner = (Spinner) findViewById(R.id.categorySpinner);
         final CategoryAdapter catAdapt = new CategoryAdapter(getApplicationContext(), categories);
@@ -91,17 +101,20 @@ public class CreateBudget extends Activity {
                 EditText pounds = (EditText)findViewById(R.id.priceInputPounds);
                 EditText pence = (EditText)findViewById(R.id.priceInputPence);
 
-                if (t.getText().equals("") || pounds.getText().equals("") || pence.getText().equals("")) {
+                String poundsString = pounds.getText().toString();
+                String penceString = pounds.getText().toString();
+
+                if (currentCategory.equals(null) || poundsString.matches("") || poundsString.matches("")) {
                     return; //If any category is not filled, the program will not add the category
                 }
 
-                t.setText(t.getText() + currentCategory.getCategoryName() + " - £"  + pounds.getText() + "." + pence.getText() + "\r\n");
+                t.setText(t.getText() + currentCategory.getCategoryName() + " - £"  + pounds.getText().toString() + "." + pence.getText().toString() + "\r\n");
 
                 BudCatLink budCatLink = new BudCatLink();
                 budCatLink.setCategoryID(currentCategory.getCategoryID());
-                budCatLink.setCatBudgetAmount(Integer.parseInt((pounds.toString() + pence.toString())));
+                budCatLink.setCatBudgetAmount(new BigDecimal(pounds.getText().toString() + "." + pence.getText().toString()));
 
-                tempLinks.add(new BudCatLink());
+                tempLinks.add(budCatLink);
 
                 spinner.setSelection(0); //Reset all values
                 pounds.setText("");
@@ -113,7 +126,7 @@ public class CreateBudget extends Activity {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                currentCategory = catAdapt.getItem(position);
+                currentCategory = (Category) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -131,13 +144,32 @@ public class CreateBudget extends Activity {
                 EditText pounds = (EditText)findViewById(R.id.priceInputPounds2);
                 EditText pence = (EditText)findViewById(R.id.priceInputPence2);
 
-                Category c = categoryDS.createCategory(categoryName.toString());
+                String categoryNameString = categoryName.getText().toString();
+                String poundsString = pounds.getText().toString();
+                String penceString = pounds.getText().toString();
 
-                t.setText(t.getText() + c.getCategoryName() + " - £"  + pounds.getText() + "." + pence.getText() + "\r\n");
+                if (categoryNameString.matches("") || poundsString.matches("") || penceString.matches("")) {
+                    return; //If any category is not filled, the program will not add the category
+                }
+
+                categoryDS.open();
+                Category c = categoryDS.createCategory(categoryName.getText().toString());
+                categories = new ArrayList<Category>(categoryDS.getAllCategories());
+                categoryDS.close();
+
+                catAdapt.notifyDataSetChanged();
+
+                t.setText(t.getText().toString() + c.getCategoryName() + " - £"  + pounds.getText().toString() + "." + pence.getText().toString() + "\r\n");
 
                 BudCatLink budCatLink = new BudCatLink();
                 budCatLink.setCategoryID(c.getCategoryID());
-                budCatLink.setCatBudgetAmount(Integer.parseInt((pounds.toString() + pence.toString())));
+                budCatLink.setCatBudgetAmount(new BigDecimal(pounds.getText().toString() + "." + pence.getText().toString()));
+
+                tempLinks.add(budCatLink);
+
+                categoryName.setText("");
+                pounds.setText("");
+                pence.setText("");
             }
         });
 
@@ -169,13 +201,22 @@ public class CreateBudget extends Activity {
                 EditText startDateED = (EditText)findViewById(R.id.startDate);
                 EditText finDateED = (EditText)findViewById(R.id.finDate);
 
-                if (startDateED.getText().equals("") || finDateED.equals("") || t.getText().equals("")) {
+                String tString = t.getText().toString();
+                String startDateString = startDateED.getText().toString();
+                String finDateString = finDateED.getText().toString();
+
+                if (startDateString.matches("") || finDateString.matches("") || tString.matches("")) {
                     return;
                 }
 
+                budgetDS.open();
                 Budget b = budgetDS.createBudget(startCalendar.getTime(), finCalendar.getTime());
+                budgetDS.close();
+
                 for(BudCatLink link: tempLinks){
-                    budCatLinkDS.createBudCatLink(b.getBudgetID(), link.getCategoryID(),link.getCatBudgetAmount());
+                    budCatLinkDS.open();
+                    budCatLinkDS.createBudCatLink(b.getBudgetID(), link.getCategoryID(), link.getCatBudgetAmount().toString());
+                    budCatLinkDS.close();
                 }
                 finish();
         }

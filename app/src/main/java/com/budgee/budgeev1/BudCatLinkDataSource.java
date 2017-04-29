@@ -4,6 +4,7 @@ package com.budgee.budgeev1;
  * Created by Will on 22/04/2017.
  */
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class BudCatLinkDataSource {
     private SQLiteDatabase database;
     private DBHelper dbHelper;
-    private String[] allColumns = { DBHelper.columnBudgetIDFK,
+    private String[] allColumns = {"_id", DBHelper.columnBudgetIDFK,
             DBHelper.columnCategoryIDFK, DBHelper.columnCatBudgetAmount};
 
     public BudCatLinkDataSource(Context context) {
@@ -32,15 +33,15 @@ public class BudCatLinkDataSource {
         dbHelper.close();
     }
 
-    public BudCatLink createBudCatLink(int budgetID, int categoryID, int catBudgetAmount){
+    public BudCatLink createBudCatLink(int budgetID, int categoryID, String catBudgetAmount){
         ContentValues values = new ContentValues();
         values.put(DBHelper.columnBudgetIDFK, budgetID);
         values.put(DBHelper.columnCategoryIDFK, categoryID);
         values.put(DBHelper.columnCatBudgetAmount, catBudgetAmount);
-        long insertId = database.insert(DBHelper.tableBudgets, null, values);
+        long insertId = database.insert(DBHelper.tableBudCatLink, null, values);
 
-        Cursor cursor = database.query(DBHelper.tableBudgets,
-                allColumns, DBHelper.columnBudgetID + " = " + insertId, null,
+        Cursor cursor = database.query(DBHelper.tableBudCatLink,
+                allColumns, "_id = " + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
         BudCatLink newBudCatLink = cursorToBudCatLink(cursor);
@@ -52,14 +53,14 @@ public class BudCatLinkDataSource {
         long budgetID = budCatLink.getBudgetID();
         long categoryID = budCatLink.getCategoryID();
         System.out.println("Category deleted with id: (" + budgetID + ", " + categoryID + ")" );
-        database.delete(DBHelper.tableCategories,DBHelper.columnBudgetIDFK
+        database.delete(DBHelper.tableBudCatLink, DBHelper.columnBudgetIDFK
                 + " = " + budgetID + " AND " + DBHelper.columnCategoryIDFK + " = " + categoryID, null);
     }
 
     public List<BudCatLink> getBudCatLinks(int budgetID) {
         String whereClause = "Budget_id = ?";
         String[] whereArgs = new String[] {Integer.toString(budgetID)};
-        String orderBy = "Category_id";
+        String orderBy = DBHelper.columnCategoryIDFK;
 
         List<BudCatLink> budCatLinkList = new ArrayList<BudCatLink>();
 
@@ -80,9 +81,9 @@ public class BudCatLinkDataSource {
 
     private BudCatLink cursorToBudCatLink(Cursor cursor) {
         BudCatLink budCatLink = new BudCatLink();
-        budCatLink.setBudgetID(cursor.getInt(0));
-        budCatLink.setCategoryID(cursor.getInt(1));
-        budCatLink.setCatBudgetAmount(cursor.getInt(2));
+        budCatLink.setBudgetID(cursor.getInt(1));
+        budCatLink.setCategoryID(cursor.getInt(2));
+        budCatLink.setCatBudgetAmount(new BigDecimal(cursor.getString(3)));
         return budCatLink;
     }
 

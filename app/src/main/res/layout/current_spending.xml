@@ -13,6 +13,15 @@
         android:id="@+id/allSpendingBar"
         android:layout_width="match_parent"
         android:layout_height="270dp">
+
+        <LinearLayout
+            android:id="@+id/allSpendingLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal">
+        </LinearLayout>
+
+
     </ScrollView>
 
     <ScrollView

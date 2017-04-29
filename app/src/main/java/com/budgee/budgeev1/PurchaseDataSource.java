@@ -4,6 +4,7 @@ package com.budgee.budgeev1;
  * Created by Will on 20/02/2017.
  */
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,7 +81,7 @@ public class PurchaseDataSource {
         List<Purchase> purchaseList = new ArrayList<Purchase>();
 
         Cursor cursor = database.query(DBHelper.tablePurchases,
-                allColumns, whereClause, whereArgs, orderBy, null, null);
+                allColumns, whereClause, whereArgs, null, null, orderBy);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -93,16 +94,17 @@ public class PurchaseDataSource {
         return purchaseList;
     }
 
-    public int getCurrentSpending(BudCatLink budCatLink){
-        int totalSpending = 0;
+    public BigDecimal getCurrentSpending(BudCatLink budCatLink){
+        BigDecimal totalSpending = new BigDecimal(0.0);
+        BigDecimal expenditure;
 
-        Cursor cursor = database.rawQuery("SELECT ? FROM ? INNER JOIN ? ON ? = ? WHERE ? = ? AND ? = ?;", new String[] {"Items.ItemPrice", "Items",
-                "Purchases", "Items._id", "Purchases.Item_id", "Purchases.Budget_id", Integer.toString(budCatLink.getBudgetID()),
-                "Purchases.Category_id", Integer.toString(budCatLink.getCategoryID())});
+        Cursor cursor = database.rawQuery("SELECT ItemPrice FROM Items INNER JOIN Purchases ON Items.Item_id = Item_id WHERE Budget_id = ? AND Category_id = ?;",
+                new String[] {Integer.toString(budCatLink.getBudgetID()), Integer.toString(budCatLink.getCategoryID())});
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            totalSpending += cursor.getInt(0);
+            expenditure = new BigDecimal(cursor.getString(0));
+            totalSpending = totalSpending.add(expenditure);
         }
         // make sure to close the cursor
         cursor.close();
@@ -132,7 +134,7 @@ public class PurchaseDataSource {
 
     private Purchase cursorToPurchase(Cursor cursor) {
         Purchase purchase = new Purchase();
-        Date date = new Date((long)cursor.getInt(1) * 1000); //Must convert from int to Date
+        Date date = new Date(cursor.getLong(1)); //Must convert from int to Date
         purchase.setPurchaseID(cursor.getInt(0));
         purchase.setPurchaseDate(date);
         purchase.setItemID(cursor.getInt(2));

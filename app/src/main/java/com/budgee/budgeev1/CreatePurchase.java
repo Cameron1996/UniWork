@@ -29,16 +29,16 @@ public class CreatePurchase extends Activity {
     private CategoryDataSource categoryDS;
     private PurchaseDataSource purchaseDS;
 
-    Bundle extras = getIntent().getExtras();
+    Bundle extras;
 
-    int budgetID = extras.getInt("BudgetID");
+    int budgetID;
 
-    Item currentQuickBuyItem = new Item();
-    Category currentQuickBuyCategory = new Category();
-    Category currentNewPurchaseCategory = new Category();
+    Item currentQuickBuyItem;
+    Category currentQuickBuyCategory;
+    Category currentNewPurchaseCategory;
 
-    ArrayList<Item> items = new ArrayList<Item>(itemDS.getAllItems());
-    ArrayList<Category> categories = new ArrayList<Category>(categoryDS.getAllCategories());
+    ArrayList<Item> items;
+    ArrayList<Category> categories;
 
     final Calendar quickBuyCalendar = Calendar.getInstance();
     final Calendar newPurchaseCalendar = Calendar.getInstance();
@@ -89,15 +89,36 @@ public class CreatePurchase extends Activity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_purchase_create);
 
-        final Spinner quickBuyItemSpinner = (Spinner) findViewById(R.id.quickBuyItemSpinner);
-        final Spinner quickBuyCategorySpinner = (Spinner) findViewById(R.id.quickBuyCategorySpinner);
-        final Spinner newPurchaseCategorySpinner = (Spinner) findViewById(R.id.newPurchaseCategorySpinner);
+        budgetDS = new BudgetDataSource(this);
+        itemDS =  new ItemDataSource(this);
+        categoryDS = new CategoryDataSource(this);
+        purchaseDS = new PurchaseDataSource(this);
+
+        extras = getIntent().getExtras();
+        budgetID = extras.getInt("BudgetID");
+
+        currentQuickBuyItem = new Item();
+        currentQuickBuyCategory = new Category();
+        currentNewPurchaseCategory = new Category();
+
+        itemDS.open();
+        items = new ArrayList<Item>(itemDS.getAllItems());
+        itemDS.close();
+
+        categoryDS.open();
+        categories = new ArrayList<Category>(categoryDS.getAllCategories());
+        categoryDS.close();
+
+        Spinner quickBuyItemSpinner = (Spinner) findViewById(R.id.quickBuyItemSpinner);
 
         final ItemAdapter itemAdapt = new ItemAdapter(getApplicationContext(), items);
         itemAdapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         quickBuyItemSpinner.setAdapter(itemAdapt);
+
+        Spinner quickBuyCategorySpinner = (Spinner) findViewById(R.id.quickBuyCategorySpinner);
+        Spinner newPurchaseCategorySpinner = (Spinner) findViewById(R.id.newPurchaseCategorySpinner);
 
         final CategoryAdapter catAdapt = new CategoryAdapter(getApplicationContext(), categories);
         catAdapt.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -107,7 +128,9 @@ public class CreatePurchase extends Activity {
         final Button confirmQuickBuyButton = (Button) findViewById(R.id.confirmQuickBuyButton);
         confirmQuickBuyButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                purchaseDS.open();
                 purchaseDS.createPurchase(quickBuyCalendar.getTime(), currentQuickBuyItem.getItemID(), budgetID, currentQuickBuyCategory.getCategoryID());
+                purchaseDS.close();
                 finish();
             }
         });
@@ -119,8 +142,12 @@ public class CreatePurchase extends Activity {
                 EditText newItemPricePounds = (EditText) findViewById(R.id.priceInputPounds);
                 EditText newItemPricePence = (EditText) findViewById(R.id.priceInputPence);
 
-                Item item = itemDS.createItem(newItemName.getText().toString(), Integer.parseInt((newItemPricePounds.toString() + newItemPricePence.toString())));
+                itemDS.open();
+                purchaseDS.open();
+                Item item = itemDS.createItem(newItemName.getText().toString(), newItemPricePounds.toString() + "."  + newItemPricePence.toString());
                 purchaseDS.createPurchase(newPurchaseCalendar.getTime(), item.getItemID(), budgetID, currentNewPurchaseCategory.getCategoryID());
+                itemDS.close();
+                itemDS.close();
                 finish();
             }
         });
@@ -172,6 +199,7 @@ public class CreatePurchase extends Activity {
                         .get(Calendar.YEAR), quickBuyCalendar.get(Calendar.MONTH),
                         quickBuyCalendar.get(Calendar.DAY_OF_MONTH));
 
+                budgetDS.open();
                 Calendar minCal = Calendar.getInstance().getInstance();
                 minCal.setTime(budgetDS.getBudget(budgetID).getBudgetStartDate());
                 long minDate = minCal.getTime().getTime();
@@ -179,6 +207,7 @@ public class CreatePurchase extends Activity {
                 Calendar maxCal = Calendar.getInstance().getInstance();
                 maxCal.setTime(budgetDS.getBudget(budgetID).getBudgetFinishDate());
                 long maxDate = maxCal.getTime().getTime();
+                budgetDS.close();
 
                 dpl.getDatePicker().setMinDate(minDate);
                 dpl.getDatePicker().setMaxDate(maxDate);
@@ -194,6 +223,7 @@ public class CreatePurchase extends Activity {
                         .get(Calendar.YEAR), newPurchaseCalendar.get(Calendar.MONTH),
                         newPurchaseCalendar.get(Calendar.DAY_OF_MONTH));
 
+                budgetDS.open();
                 Calendar minCal = Calendar.getInstance().getInstance();
                 minCal.setTime(budgetDS.getBudget(budgetID).getBudgetStartDate());
                 long minDate = minCal.getTime().getTime();
@@ -201,6 +231,7 @@ public class CreatePurchase extends Activity {
                 Calendar maxCal = Calendar.getInstance().getInstance();
                 maxCal.setTime(budgetDS.getBudget(budgetID).getBudgetFinishDate());
                 long maxDate = maxCal.getTime().getTime();
+                budgetDS.close();
 
                 dpl.getDatePicker().setMinDate(minDate);
                 dpl.getDatePicker().setMaxDate(maxDate);

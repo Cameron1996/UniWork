@@ -1,5 +1,7 @@
 package com.budgee.budgeev1;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Will on 16/02/2017.
  */
@@ -7,7 +9,7 @@ package com.budgee.budgeev1;
 public class Item {
     private int itemID;
     private String itemName;
-    private int itemPrice; // should it not be double?
+    private BigDecimal itemPrice; // should it not be double?
     public int getItemID() {
         return itemID;
     }
@@ -16,7 +18,7 @@ public class Item {
         return itemName;
     }
 
-    public int getItemPrice() {
+    public BigDecimal getItemPrice() {
         return itemPrice;
     }
 
@@ -28,7 +30,7 @@ public class Item {
         this.itemName = itemName;
     }
 
-    public void setItemPrice(int itemPrice) {
+    public void setItemPrice(BigDecimal itemPrice) {
         this.itemPrice = itemPrice;
     }
 

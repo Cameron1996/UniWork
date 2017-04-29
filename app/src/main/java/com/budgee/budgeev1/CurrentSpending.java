@@ -7,12 +7,14 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Scroller;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 /**
@@ -21,7 +23,6 @@ import java.util.ArrayList;
 
 public class CurrentSpending extends Activity {
 
-    private BudgetDataSource budgetDS;
     private BudCatLinkDataSource budCatLinkDS;
     private PurchaseDataSource purchaseDS;
     private ItemDataSource itemDS;
@@ -30,14 +31,20 @@ public class CurrentSpending extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.current_spending);
 
+        budCatLinkDS = new BudCatLinkDataSource(this);
+        purchaseDS = new PurchaseDataSource(this);
+        itemDS = new ItemDataSource(this);
+
         Bundle extras = getIntent().getExtras();
 
         int budgetID = extras.getInt("BudgetID");
 
+        budCatLinkDS.open();
         ArrayList<BudCatLink> budCatLinks = new ArrayList<BudCatLink>(budCatLinkDS.getBudCatLinks(budgetID));
+        budCatLinkDS.close();
 
         TextView currentPurchases = (TextView) findViewById(R.id.tvAllPurchases);
-        ScrollView scrollView =  (ScrollView) findViewById(R.id.allSpendingBar);
+        LinearLayout scrollLayout =  (LinearLayout) findViewById(R.id.allSpendingLayout);
 
         for (BudCatLink budCat : budCatLinks ) {
             RelativeLayout relativeLayout = (RelativeLayout)getLayoutInflater().inflate(R.layout.spending_bar, null);
@@ -45,10 +52,18 @@ public class CurrentSpending extends Activity {
             ProgressBar progressBar = (ProgressBar) relativeLayout.findViewById(R.id.progressBarCurrentSpending);
             TextView tvMax = (TextView) relativeLayout.findViewById(R.id.tvMax);
 
-            int spendingPercentage = purchaseDS.getCurrentSpending(budCat) / budCat.getCatBudgetAmount() * 100;
+            purchaseDS.open();
+
+            BigDecimal currentSpending = purchaseDS.getCurrentSpending(budCat);
+            BigDecimal catBudgetAmount = budCat.getCatBudgetAmount();
+            BigDecimal a = currentSpending.divide(catBudgetAmount);
+            BigDecimal b = a.divide(new BigDecimal(100.0));
+
+            int spendingPercentage = Integer.valueOf(b.intValue());
+            purchaseDS.close();
 
             progressBar.setProgress(spendingPercentage);
-            tvMax.setText(budCat.getCatBudgetAmount());
+            tvMax.setText(budCat.getCatBudgetAmount().toString());
 
             if (spendingPercentage <= 50) {
                 progressBar.getProgressDrawable().setColorFilter(Color.parseColor("#0ef929"), PorterDuff.Mode.SRC_IN);
@@ -60,14 +75,17 @@ public class CurrentSpending extends Activity {
                 progressBar.getProgressDrawable().setColorFilter(Color.parseColor("#b62020"), PorterDuff.Mode.SRC_IN);
             }
 
-            scrollView.addView(relativeLayout);
+            scrollLayout.addView(relativeLayout);
         }
 
+        purchaseDS.open();
+        itemDS.open();
         for (Purchase p : purchaseDS.getCurrentBudgetPurchases(budgetID)) {
             Item i = itemDS.getItem(p.getItemID());
-            currentPurchases.setText(currentPurchases.getText() + i.getItemName() + " £" + Integer.toString(i.getItemPrice()).substring(0, 1)
-                    + "." + Integer.toString(i.getItemPrice()).substring(1, 3) + "\r\n");
+            currentPurchases.setText(currentPurchases.getText() + i.getItemName() + " £" + i.getItemPrice() + "\r\n");
         }
+        purchaseDS.close();
+        itemDS.close();
 
         final Button exitButton = (Button) findViewById(R.id.exitButton);
         exitButton.setOnClickListener(new View.OnClickListener() {

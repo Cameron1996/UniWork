@@ -33,7 +33,7 @@ public class CategoryDataSource {
 
     public Category createCategory(String categoryName){
         ContentValues values = new ContentValues();
-        values.put(DBHelper.columnPurchaseDate, categoryName);
+        values.put(DBHelper.columnCategoryName, categoryName);
         long insertId = database.insert(DBHelper.tableCategories, null, values);
         Cursor cursor = database.query(DBHelper.tableCategories,
                 allColumns, DBHelper.columnCategoryID + " = " + insertId, null,

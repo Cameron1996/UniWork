@@ -12,7 +12,7 @@
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="10pt"
-        android:text="@string/tutorial_title_4" />
+        android:text="Budget Tutorial" />
         <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ScrollView01"
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="@string/tutorial_body_4"
+                    android:text="Part 4"
                     android:textSize="10pt" />
 
                 <TextView
@@ -39,7 +39,7 @@
                     android:textAlignment="center"
                     android:textColor="#000000"
                     android:textSize="10pt"
-                    android:text="@string/tutorial_title_checklist"
+                    android:text="Checklist"
                     android:layout_weight="0.39" />
 
                 <CheckBox
